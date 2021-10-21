@@ -3,6 +3,8 @@ import yaml
 import re
 from os.path import getsize
 import gzip
+from matplotlib import pyplot as plt
+import seaborn as sns
 
 def read_config(path):
     with open(path, 'r') as stream:
@@ -66,3 +68,14 @@ def df_info(df, name):
     Number of rows: {len(df)}
     File size: {round(size, 2)}MB 
     """)   
+
+def columns_graph(df):
+    for i in df.columns:
+        if df[i].dtype == 'int64':
+            plt.hist(df[i])
+            plt.title(i)
+            plt.show()
+            plt.clf()
+        else:
+            sns.barplot(df[i].value_counts().index,df[i].value_counts()).set_title(i)
+            plt.show()
